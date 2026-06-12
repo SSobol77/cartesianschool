@@ -6,14 +6,16 @@ import { motion, AnimatePresence } from "framer-motion";
 const EMAIL = "siergej@cartesianschool.net";
 const CALENDLY = "https://calendly.com/siergej";
 
+// metric = the MEASURED problem on the original site (Google PageSpeed),
+// shown as the "before". We never invent "after" numbers or client results.
 const portfolio = [
-  { name: "Reliance Roofing", niche: "Roofing · Austin, TX", url: "https://6-reliance-roofing.vercel.app", note: "Old site: 21.8 s mobile load, no HTTPS → instant, secure, mobile-first", metric: "21.8s → 0.8s", metricLabel: "Load time" },
-  { name: "Porter & Sons Roofing", niche: "Roof repair · Austin, TX", url: "https://5-porter-sons-roofing.vercel.app", note: "Same-day bookings put front and center with click-to-call", metric: "+340%", metricLabel: "Conversions" },
-  { name: "Texas Choice Roofing", niche: "Roofing & exteriors · Austin, TX", url: "https://1-texas-choice-roofing.vercel.app", note: "15 s mobile load replaced with an instant licensed-and-insured pitch", metric: "15s → 1.2s", metricLabel: "Load time" },
-  { name: "Zilker Roofing", niche: "Res/com/industrial · Austin, TX", url: "https://3-zilker-roofing.vercel.app", note: "Desktop-only page rebuilt mobile-first for phone searches", metric: "+280%", metricLabel: "Mobile traffic" },
-  { name: "Blue Sky Roofing", niche: "Roofing · Austin, TX", url: "https://4-blue-sky-roofing.vercel.app", note: "'Not Secure' warning and failing server replaced outright", metric: "A+ SSL", metricLabel: "Security" },
-  { name: "Elite Roofing LLC", niche: "Roofing · Austin, TX", url: "https://2-elite-roofing.vercel.app", note: "46/100 speed score rebuilt to load instantly", metric: "46 → 98", metricLabel: "PageSpeed" },
-  { name: "RoofsOnly.com", niche: "Roofing specialist · Austin, TX", url: "https://7-roofsonly.vercel.app", note: "Specialist positioning finally reflected by the site itself", metric: "+420%", metricLabel: "Leads" },
+  { name: "Reliance Roofing", niche: "Roofing · Austin, TX", url: "https://6-reliance-roofing.vercel.app", note: "Old site: 21.8 s mobile load, no HTTPS → rebuilt secure and mobile-first", metric: "21.8 s load", metricLabel: "Before · Google PSI" },
+  { name: "Porter & Sons Roofing", niche: "Roof repair · Austin, TX", url: "https://5-porter-sons-roofing.vercel.app", note: "Same-day bookings put front and center with click-to-call", metric: "No mobile setup", metricLabel: "Before · Google PSI" },
+  { name: "Texas Choice Roofing", niche: "Roofing & exteriors · Austin, TX", url: "https://1-texas-choice-roofing.vercel.app", note: "14.9 s mobile load replaced with an instant licensed-and-insured pitch", metric: "14.9 s load", metricLabel: "Before · Google PSI" },
+  { name: "Zilker Roofing", niche: "Res/com/industrial · Austin, TX", url: "https://3-zilker-roofing.vercel.app", note: "Desktop-only page rebuilt mobile-first for phone searches", metric: "Desktop-only", metricLabel: "Before · Google PSI" },
+  { name: "Blue Sky Roofing", niche: "Roofing · Austin, TX", url: "https://4-blue-sky-roofing.vercel.app", note: "'Not Secure' warning and failing server replaced outright", metric: "'Not Secure'", metricLabel: "Before · no HTTPS" },
+  { name: "Elite Roofing LLC", niche: "Roofing · Austin, TX", url: "https://2-elite-roofing.vercel.app", note: "46/100 mobile speed score rebuilt to load instantly", metric: "46/100 speed", metricLabel: "Before · Google PSI" },
+  { name: "RoofsOnly.com", niche: "Roofing specialist · Austin, TX", url: "https://7-roofsonly.vercel.app", note: "Specialist positioning finally reflected by the site itself", metric: "66/100 speed", metricLabel: "Before · Google PSI" },
 ];
 
 const steps = [
@@ -30,12 +32,6 @@ const features = [
   { title: "Click-to-Call", desc: "One-tap calling from any phone. No forms to fill.", icon: "📞" },
   { title: "Local SEO", desc: "Structured data, correct titles, Google Maps integration.", icon: "🎯" },
   { title: "You Own It", desc: "Domain, hosting, code — everything is yours. No lock-in.", icon: "🔑" },
-];
-
-const testimonials = [
-  { quote: "Cartesian rebuilt our site in 4 days. Our phone started ringing the same week.", author: "Mike T.", company: "Reliance Roofing", location: "Austin, TX" },
-  { quote: "The live preview sold me. I saw the new site on my phone before paying a cent.", author: "Sarah P.", company: "Porter & Sons", location: "Austin, TX" },
-  { quote: "Went from 46/100 PageSpeed to 98. Our Google ranking jumped 12 positions.", author: "James L.", company: "Elite Roofing", location: "Austin, TX" },
 ];
 
 function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: string }) {
@@ -55,19 +51,11 @@ function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: str
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -230,16 +218,11 @@ export default function Home() {
                 </a>
               </div>
 
-              {/* Trust badges */}
-              <div className="mt-12 flex items-center gap-6 text-sm text-slate-500">
-                <div className="flex -space-x-2">
-                  {[1,2,3,4].map((i) => (
-                    <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 border-2 border-white flex items-center justify-center text-xs font-bold text-slate-600">
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
-                </div>
-                <p>Trusted by <span className="font-semibold text-slate-700">7+ local businesses</span> in Austin</p>
+              <div className="mt-12 text-sm text-slate-500">
+                <p>
+                  <span className="font-semibold text-slate-700">7 live rebuilds</span> for
+                  Austin businesses — open any of them on your phone, right now.
+                </p>
               </div>
             </motion.div>
 
@@ -288,10 +271,10 @@ export default function Home() {
                   className="absolute -right-8 top-20 bg-white rounded-2xl shadow-xl p-4 border border-slate-100"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-lg">⚡</div>
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-lg">🔍</div>
                     <div>
-                      <p className="text-sm font-bold text-slate-900">0.8s load</p>
-                      <p className="text-xs text-slate-500">Mobile speed</p>
+                      <p className="text-sm font-bold text-slate-900">Free audit</p>
+                      <p className="text-xs text-slate-500">Google-measured</p>
                     </div>
                   </div>
                 </motion.div>
@@ -302,10 +285,10 @@ export default function Home() {
                   className="absolute -left-12 bottom-32 bg-white rounded-2xl shadow-xl p-4 border border-slate-100"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg">📈</div>
+                    <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg">👁️</div>
                     <div>
-                      <p className="text-sm font-bold text-slate-900">+340%</p>
-                      <p className="text-xs text-slate-500">More calls</p>
+                      <p className="text-sm font-bold text-slate-900">Live preview</p>
+                      <p className="text-xs text-slate-500">Before you pay</p>
                     </div>
                   </div>
                 </motion.div>
@@ -331,9 +314,9 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {[
-              { value: "7+", label: "Sites rebuilt" },
+              { value: "7", label: "Live rebuilds you can open now" },
               { value: "5", label: "Business days to launch" },
-              { value: "98", label: "Avg. PageSpeed score" },
+              { value: "3", label: "Quality gates before every launch" },
               { value: "0", label: "Upfront cost for preview" },
             ].map((stat, i) => (
               <motion.div
@@ -537,60 +520,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 sm:py-28 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-2xl mx-auto mb-16"
-          >
-            <span className="text-indigo-600 font-semibold text-sm tracking-wide uppercase">Testimonials</span>
-            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">What clients say</h2>
-          </motion.div>
-
-          <div className="max-w-3xl mx-auto">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTestimonial}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-100 text-center"
-              >
-                <div className="text-6xl text-indigo-200 font-serif leading-none mb-6">"</div>
-                <p className="text-xl sm:text-2xl text-slate-700 font-medium leading-relaxed">
-                  {testimonials[activeTestimonial].quote}
-                </p>
-                <div className="mt-8 flex items-center justify-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white font-bold text-lg">
-                    {testimonials[activeTestimonial].author[0]}
-                  </div>
-                  <div className="text-left">
-                    <p className="font-bold text-slate-900">{testimonials[activeTestimonial].author}</p>
-                    <p className="text-sm text-slate-500">{testimonials[activeTestimonial].company} · {testimonials[activeTestimonial].location}</p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex justify-center gap-2 mt-8">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveTestimonial(i)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    i === activeTestimonial ? "bg-indigo-600 w-8" : "bg-slate-300 hover:bg-slate-400"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* About / Trust */}
       <section id="about" className="py-20 sm:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -611,7 +540,7 @@ export default function Home() {
                   { label: "Based in", value: "Warsaw, Poland" },
                   { label: "Serving", value: "US & EU markets" },
                   { label: "VAT ID", value: "PL5242589542" },
-                  { label: "Response time", value: "< 4 hours" },
+                  { label: "Booking", value: "calendly.com/siergej" },
                 ].map((item) => (
                   <div key={item.label} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
                     <p className="text-xs text-slate-500 uppercase tracking-wide">{item.label}</p>
