@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -71,15 +73,27 @@ export default function Home() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 sm:h-20 items-center justify-between">
-            <a href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:shadow-indigo-500/25 transition-shadow">
-                C
-              </div>
-              <span className={`font-bold text-xl tracking-tight transition-colors ${scrolled ? "text-slate-900" : "text-slate-900"}`}>
-                Cartesian<span className="text-indigo-600">School</span>
-              </span>
-            </a>
+            <Link
+              href="/"
+              aria-label="CartesianSchool home"
+              className="flex items-center gap-2 group shrink-0"
+            >
+              <Image
+                src="/brand/logo_light.png"
+                alt=""
+                width={48}
+                height={48}
+                priority
+                className="h-11 w-11 sm:h-12 sm:w-12 object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
+              />
 
+              <span className="inline-flex items-baseline whitespace-nowrap text-lg sm:text-xl font-bold tracking-tight leading-none text-slate-950">
+                <span>Cartesian</span>
+                <span className="bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                  School
+                </span>
+              </span>
+            </Link>
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
               {["How it works", "Portfolio", "Pricing", "About"].map((item) => (
@@ -197,7 +211,7 @@ export default function Home() {
                 We find what your current site is costing you, rebuild it fast and mobile-first, 
                 and put the result on a live URL you can open on your own phone. 
                 <span className="font-semibold text-slate-900"> Like it? Launch in five business days at a fixed price.</span>{" "}
-                Don't? It cost you nothing.
+                Don&apos;t? It cost you nothing.
               </p>
 
               <div className="mt-10 flex flex-wrap gap-4">
@@ -563,8 +577,8 @@ export default function Home() {
                 <div className="relative">
                   <h3 className="text-2xl font-bold">Ready to see what your site is costing you?</h3>
                   <p className="mt-4 text-indigo-100 leading-relaxed">
-                    Send your website address and we'll reply with a free audit — no obligation. 
-                    Or book the call directly and we'll walk through it together.
+                    Send your website address and we&apos;ll reply with a free audit — no obligation. 
+                    Or book the call directly and we&apos;ll walk through it together.
                   </p>
                   <div className="mt-8 flex flex-wrap gap-4">
                     <a
@@ -587,56 +601,82 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+       {/* Footer */}
       <footer className="bg-slate-950 text-slate-400 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <div className="sm:col-span-2 lg:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-sm">
-                  C
-                </div>
-                <span className="font-bold text-lg text-white">
-                  Cartesian<span className="text-indigo-400">School</span>
+              <div className="mb-4 flex items-center gap-2">
+                <Image
+                  src="/brand/logo_dark.png"
+                  alt=""
+                  width={44}
+                  height={44}
+                  className="h-11 w-11 object-contain shrink-0"
+                />
+
+                <span className="inline-flex items-baseline whitespace-nowrap text-lg font-bold tracking-tight leading-none text-white">
+                  <span>Cartesian</span>
+                  <span className="bg-gradient-to-r from-violet-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">
+                    School
+                  </span>
                 </span>
               </div>
+
               <p className="text-sm leading-relaxed">
                 Website audits and rebuilds for local businesses. Based in Warsaw, serving the US and EU.
               </p>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-4">Services</h4>
               <ul className="space-y-2 text-sm">
                 {["Website Audit", "Mobile Rebuild", "Local SEO", "Speed Optimization"].map((item) => (
-                  <li key={item}><a href="#" className="hover:text-white transition-colors">{item}</a></li>
+                  <li key={item}>
+                    <a href="#" className="hover:text-white transition-colors">
+                      {item}
+                    </a>
+                  </li>
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm">
                 {["About", "Portfolio", "Process", "Contact"].map((item) => (
-                  <li key={item}><a href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">{item}</a></li>
+                  <li key={item}>
+                    <a href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">
+                      {item}
+                    </a>
+                  </li>
                 ))}
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href={`mailto:${EMAIL}`} className="hover:text-white transition-colors">{EMAIL}</a></li>
-                <li><a href={CALENDLY} className="hover:text-white transition-colors">Book a call</a></li>
+                <li>
+                  <a href={`mailto:${EMAIL}`} className="hover:text-white transition-colors">
+                    {EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a href={CALENDLY} className="hover:text-white transition-colors">
+                    Book a call
+                  </a>
+                </li>
                 <li>Milenijna Str. 45E/41</li>
                 <li>03-130 Warsaw, Poland</li>
                 <li className="text-xs text-slate-500 mt-2">VAT: PL5242589542</li>
               </ul>
             </div>
           </div>
-          
+
           <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
             <p>© 2026 Cartesian School. All rights reserved.</p>
+
             <p className="flex items-center gap-2">
               Powered by FreeBSD
               {/* eslint-disable-next-line @next/next/no-img-element */}
