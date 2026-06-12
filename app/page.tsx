@@ -637,7 +637,11 @@ export default function Home() {
           
           <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
             <p>© 2026 Cartesian School. All rights reserved.</p>
-            <p>Powered on FreeBSD</p>
+            <p className="flex items-center gap-2">
+              Powered on FreeBSD
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/freebsd.png" alt="FreeBSD logo" className="h-4 w-auto" />
+            </p>
           </div>
         </div>
       </footer>
