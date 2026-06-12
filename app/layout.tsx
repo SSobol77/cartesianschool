@@ -5,28 +5,34 @@ import "./globals.css";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Cartesian School — Websites for Local Businesses",
+  title: "Cartesian School — Website Rebuilds for Local Businesses",
   description:
-    "We find what's broken on your website, build a faster replacement you can see live before paying, and launch it in five business days. Fixed price.",
+    "See your new homepage live before you pay anything. We rebuild slow, broken local business websites into fast, mobile-first lead generators. Launch in 5 business days, fixed price.",
   keywords:
-    "website rebuild, local business website, landing page agency, website audit, fast websites",
+    "website rebuild, local business website, landing page agency, website audit, fast websites, mobile-first, local SEO",
   openGraph: {
-    title: "Cartesian School — Websites for Local Businesses",
+    title: "Cartesian School — See Your New Site Live Before You Pay",
     description:
-      "See your new homepage live before you pay anything. Launch in five business days, fixed price.",
+      "Free audit. Live preview. Fixed price. 5-day delivery. No risk.",
     type: "website",
     locale: "en_US",
     url: "https://cartesianschool.net",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cartesian School — Website Rebuilds for Local Businesses",
+    description: "See your new site live before you pay. 5-day delivery.",
   },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Cartesian School Siergej Sobolewski",
-  description: "Website audits and rebuilds for local businesses.",
+  name: "Cartesian School",
+  description: "Website audits and rebuilds for local businesses. Free audit, live preview, fixed price.",
   email: "siergej@cartesianschool.net",
   url: "https://cartesianschool.net",
+  telephone: "",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Milenijna Str. 45E/41",
@@ -35,14 +41,20 @@ const jsonLd = {
     addressCountry: "PL",
   },
   vatID: "PL5242589542",
+  priceRange: "$$",
+  areaServed: {
+    "@type": "Place",
+    name: "United States, European Union",
+  },
+  serviceType: "Website Design, Website Development, SEO",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${geist.className} antialiased bg-white text-slate-800`}>
+    <html lang="en" className="scroll-smooth">
+      <body className={`${geist.className} antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
