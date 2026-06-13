@@ -1,9 +1,0 @@
-/* ============================================================
-   Cartesian School — Webfonts
-   Primary: Geist (the product's typeface, used across the site)
-   Mono:    Geist Mono (metrics, code, URLs, audit numbers)
-   Loaded from Google Fonts. If you self-host, swap the @import
-   for local @font-face rules pointing at /assets/fonts/.
-   ============================================================ */
-
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap");
