@@ -252,13 +252,22 @@ export default function Home() {
                   <div className="w-full h-full bg-white rounded-[2.5rem] overflow-hidden relative">
                     {/* Screen content */}
                     <div className="p-4 h-full flex flex-col">
+
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold">C</div>
+                        <Image
+                          src="/brand/logo_light_mob.png"
+                          alt=""
+                          width={36}
+                          height={36}
+                          className="h-9 w-9 object-contain shrink-0"
+                        />
+
                         <div className="flex gap-1">
                           <div className="w-4 h-4 rounded-full bg-slate-200" />
                           <div className="w-4 h-4 rounded-full bg-slate-200" />
                         </div>
                       </div>
+
                       <div className="space-y-3 flex-1">
                         <div className="h-8 bg-slate-100 rounded-lg w-3/4" />
                         <div className="h-24 bg-gradient-to-br from-indigo-50 to-violet-50 rounded-xl border border-indigo-100 flex items-center justify-center">
