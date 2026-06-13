@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"] });
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://cartesianschool.net"),
-  title: "Cartesian School — Website Rebuilds for Local Businesses",
+  title: "Cartesian School - Website Rebuilds for Local Businesses",
   description:
     "See your new homepage live before you pay anything. We rebuild slow, broken local business websites into fast, mobile-first lead generators. Launch in 5 business days, fixed price.",
   keywords:
@@ -20,7 +28,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: "Cartesian School — See Your New Site Live Before You Pay",
+    title: "Cartesian School - See Your New Site Live Before You Pay",
     description:
       "Free audit. Live preview. Fixed price. 5-day delivery. No risk.",
     type: "website",
@@ -29,18 +37,18 @@ export const metadata: Metadata = {
     siteName: "Cartesian School",
     images: [
       {
-        url: "/brand/og-cartesianschool.png",
-        width: 1200,
-        height: 630,
-        alt: "Cartesian School — Website Rebuilds for Local Businesses",
+        url: "/brand/big_logo.png",
+        width: 1731,
+        height: 909,
+        alt: "Cartesian School - Website Rebuilds for Local Businesses",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cartesian School — Website Rebuilds for Local Businesses",
+    title: "Cartesian School - Website Rebuilds for Local Businesses",
     description: "See your new site live before you pay. 5-day delivery.",
-    images: ["/brand/og-cartesianschool.png"],
+    images: ["/brand/big_logo.png"],
   },
 };
 
@@ -72,8 +80,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${geist.className} antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} scroll-smooth`}>
+      <body className="antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

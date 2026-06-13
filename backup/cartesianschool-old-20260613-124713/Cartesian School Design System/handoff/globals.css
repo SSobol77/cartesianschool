@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Cartesian School — globals.css  (drop-in replacement for app/globals.css)
+   Adds the brand tokens + the .cs-gradient-text wordmark utility used by the
+   new page.tsx. Everything else mirrors your original file.
+   ============================================================================ */
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  /* Brand ramp — from the layered-sphere logo */
+  --cs-violet: #7c3aed;
+  --cs-indigo: #5b3df5;
+  --cs-blue: #2563eb;
+  --cs-action: #4f46e5;        /* primary action */
+  --cs-action-hover: #4338ca;
+  --cs-space-950: #0a0820;     /* deep-space dark sections / footer */
+  --cs-space-800: #1b1442;
+
+  /* Signature gradients */
+  --cs-gradient: linear-gradient(135deg, #7c3aed 0%, #5b3df5 52%, #2563eb 100%);
+  --cs-gradient-text: linear-gradient(90deg, #7c3aed, #4f46e5, #2563eb);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The "School" half of the wordmark — gradient text */
+.cs-gradient-text {
+  background: var(--cs-gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Selection */
+::selection { background-color: rgba(79, 70, 229, 0.2); color: inherit; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

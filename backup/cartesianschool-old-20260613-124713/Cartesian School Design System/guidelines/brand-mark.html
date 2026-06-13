@@ -1,0 +1,28 @@
+<!-- @dsCard group="Brand" viewport="700x240" name="Logo mark" subtitle="The layered-sphere mark — app icon & standalone uses" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { padding: 28px; display: flex; gap: 28px; align-items: center; justify-content: center; background: var(--surface-subtle); }
+  .item { text-align: center; }
+  .item img { height: 120px; width: auto; border-radius: var(--radius-2xl); }
+  .sq { box-shadow: var(--glow-violet); }
+  .lbl { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 10px; }
+  .sizes { display: flex; gap: 14px; align-items: flex-end; }
+  .sizes img { border-radius: var(--radius-xl); }
+</style>
+</head>
+<body>
+  <div class="item"><img class="sq" src="../assets/logo.png" alt="App icon mark" /><div class="lbl">app icon · squircle</div></div>
+  <div class="item">
+    <div class="sizes">
+      <img src="../assets/logo_light.png" style="height:64px" alt="mark 64" />
+      <img src="../assets/logo_light.png" style="height:44px" alt="mark 44" />
+      <img src="../assets/logo_light.png" style="height:28px" alt="mark 28" />
+    </div>
+    <div class="lbl">mark · nav sizes</div>
+  </div>
+</body>
+</html>

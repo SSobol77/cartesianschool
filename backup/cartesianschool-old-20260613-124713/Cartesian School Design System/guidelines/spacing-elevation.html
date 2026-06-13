@@ -1,0 +1,20 @@
+<!-- @dsCard group="Spacing" viewport="700x210" name="Elevation" subtitle="Soft neutral shadows for cards and menus" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { padding: 32px; display: flex; gap: 22px; align-items: center; flex-wrap: wrap; background: var(--surface-subtle); }
+  .box { width: 110px; height: 84px; background: var(--surface-card); border-radius: var(--radius-lg); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="box" style="box-shadow:var(--shadow-sm)"><span class="lbl">sm</span></div>
+  <div class="box" style="box-shadow:var(--shadow-md)"><span class="lbl">md</span></div>
+  <div class="box" style="box-shadow:var(--shadow-lg)"><span class="lbl">lg</span></div>
+  <div class="box" style="box-shadow:var(--shadow-xl)"><span class="lbl">xl</span></div>
+  <div class="box" style="box-shadow:var(--shadow-hover)"><span class="lbl">hover</span></div>
+</body>
+</html>

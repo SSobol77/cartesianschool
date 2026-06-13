@@ -3,25 +3,29 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+
+  /* Brand ramp from the layered-sphere logo. */
+  --cs-violet: #7c3aed;
+  --cs-indigo: #5b3df5;
+  --cs-blue: #2563eb;
+  --cs-action: #4f46e5;
+  --cs-action-hover: #4338ca;
+  --cs-space-950: #0a0820;
+  --cs-space-800: #1b1442;
+
+  /* Signature gradients */
+  --cs-gradient: linear-gradient(135deg, #7c3aed 0%, #5b3df5 52%, #2563eb 100%);
+  --cs-gradient-text: linear-gradient(90deg, #7c3aed, #4f46e5, #2563eb);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--background);
@@ -31,45 +35,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom animations */
-@keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
+/* The "School" half of the wordmark. */
+.cs-gradient-text {
+  background: var(--cs-gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
-.animation-delay-2000 {
-  animation-delay: 2s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 4s;
-}
-
-/* Selection color */
-::selection {
-  background-color: rgba(79, 70, 229, 0.2);
-  color: inherit;
-}
+/* Selection */
+::selection { background-color: rgba(79, 70, 229, 0.2); color: inherit; }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

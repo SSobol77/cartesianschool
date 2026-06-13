@@ -1,0 +1,42 @@
+/* ============================================================
+   Cartesian School — Typography tokens
+   Geist for everything; Geist Mono for metrics/URLs/code.
+   Type is geometric, confident, tight-tracked at display sizes.
+   ============================================================ */
+
+:root {
+  /* Families */
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+  --weight-bold:    700;
+  --weight-extrabold: 800;
+  --weight-black:   900;
+
+  /* ---- Fluid display / heading scale ----
+     Hero numbers come from the site (text-7xl ≈ 72px down to 36px). */
+  --text-display:   clamp(2.75rem, calc(1.6rem + 5.6vw), 4.5rem);  /* 44 → 72 hero */
+  --text-h1:        clamp(2.25rem, calc(1.5rem + 3.2vw), 3rem);    /* 36 → 48 */
+  --text-h2:        clamp(1.75rem, calc(1.3rem + 2vw), 2.25rem);   /* 28 → 36 */
+  --text-h3:        1.25rem;   /* 20 — card titles */
+  --text-h4:        1.125rem;  /* 18 */
+  --text-lead:      1.25rem;   /* 20 — hero subcopy */
+  --text-body:      1rem;      /* 16 */
+  --text-sm:        0.875rem;  /* 14 — nav, meta */
+  --text-xs:        0.75rem;   /* 12 — eyebrows, tags */
+
+  /* Line heights */
+  --leading-tight:  1.1;    /* display */
+  --leading-snug:   1.25;   /* headings */
+  --leading-normal: 1.5;    /* body */
+  --leading-relaxed: 1.65;  /* long copy */
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;  /* display & headings */
+  --tracking-normal: 0;
+  --tracking-wide:   0.08em;   /* uppercase eyebrows */
+}

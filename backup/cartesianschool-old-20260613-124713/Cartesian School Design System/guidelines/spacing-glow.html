@@ -1,0 +1,21 @@
+<!-- @dsCard group="Spacing" viewport="700x210" name="Brand glow & glass" subtitle="Colored glow on actions; glass over dark/imagery" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { padding: 32px; display: flex; gap: 22px; align-items: center; flex-wrap: wrap;
+         background: radial-gradient(120% 120% at 30% 0%, var(--space-800), var(--space-950)); }
+  .pill { padding: 12px 22px; border-radius: var(--radius-pill); font-weight: 600; font-size: 13px; }
+  .indigo { background: var(--action-primary); color: #fff; box-shadow: var(--glow-indigo); }
+  .glass { background: var(--glass-fill); border: 1px solid var(--glass-border); backdrop-filter: var(--glass-blur); color: #fff; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.6); margin-top: 8px; }
+  .col { text-align: center; }
+</style>
+</head>
+<body>
+  <div class="col"><div class="pill indigo">Book a call</div><div class="lbl">--glow-indigo</div></div>
+  <div class="col"><div class="pill glass">Live preview</div><div class="lbl">glass + blur</div></div>
+</body>
+</html>
