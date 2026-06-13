@@ -2,25 +2,94 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, Eye, Tag, Rocket, Smartphone, Zap, Lock, PhoneCall, Target,
-  KeyRound, ArrowRight, ArrowUpRight, Check, Calendar, Globe, Mail, Menu, Home as HomeIcon, X,
+  KeyRound, ArrowRight, ArrowUpRight, Check, Calendar, Globe, Mail, Menu, X,
 } from "lucide-react";
 
 const EMAIL = "siergej@cartesianschool.net";
 const CALENDLY = "https://calendly.com/siergej";
 
+const CASE_VISUALS = {
+  performance: "/images/case-cards/1.png",
+  mobile: "/images/case-cards/2.png",
+  security: "/images/case-cards/3.png",
+  conversion: "/images/case-cards/4.png",
+  seo: "/images/case-cards/5.png",
+} as const;
+
+type CaseVisualType = keyof typeof CASE_VISUALS;
+
+function resolveCaseVisualType(problem: string): CaseVisualType {
+  const normalized = problem.toLowerCase();
+
+  if (
+    normalized.includes("not secure") ||
+    normalized.includes("no https") ||
+    normalized.includes("ssl") ||
+    normalized.includes("certificate")
+  ) {
+    return "security";
+  }
+
+  if (
+    normalized.includes("no mobile") ||
+    normalized.includes("desktop-only") ||
+    normalized.includes("not responsive") ||
+    normalized.includes("mobile setup") ||
+    normalized.includes("mobile layout")
+  ) {
+    return "mobile";
+  }
+
+  if (
+    normalized.includes("load") ||
+    normalized.includes("speed") ||
+    normalized.includes("lighthouse") ||
+    normalized.includes("pagespeed") ||
+    normalized.includes("/100")
+  ) {
+    return "performance";
+  }
+
+  if (
+    normalized.includes("call") ||
+    normalized.includes("booking") ||
+    normalized.includes("calendar") ||
+    normalized.includes("appointment") ||
+    normalized.includes("cta") ||
+    normalized.includes("lead")
+  ) {
+    return "conversion";
+  }
+
+  if (
+    normalized.includes("seo") ||
+    normalized.includes("local") ||
+    normalized.includes("ranking") ||
+    normalized.includes("map") ||
+    normalized.includes("google") ||
+    normalized.includes("reviews") ||
+    normalized.includes("visibility")
+  ) {
+    return "seo";
+  }
+
+  return "performance";
+}
+
 // metric = the MEASURED problem on the original site (Google PageSpeed),
 // shown as the "before". We never invent "after" numbers or client results.
 const portfolio = [
-  { name: "Reliance Roofing", niche: "Roofing - Austin, TX", url: "https://6-reliance-roofing.vercel.app", note: "Old site: 21.8 s mobile load, no HTTPS; rebuilt secure and mobile-first", metric: "21.8 s load", tone: "before" },
-  { name: "Porter & Sons Roofing", niche: "Roof repair - Austin, TX", url: "https://5-porter-sons-roofing.vercel.app", note: "Same-day bookings put front and center with click-to-call", metric: "No mobile setup", tone: "fail" },
-  { name: "Texas Choice Roofing", niche: "Roofing & exteriors - Austin, TX", url: "https://1-texas-choice-roofing.vercel.app", note: "14.9 s mobile load replaced with an instant licensed-and-insured pitch", metric: "14.9 s load", tone: "before" },
-  { name: "Zilker Roofing", niche: "Res/com/industrial - Austin, TX", url: "https://3-zilker-roofing.vercel.app", note: "Desktop-only page rebuilt mobile-first for phone searches", metric: "Desktop-only", tone: "fail" },
-  { name: "Blue Sky Roofing", niche: "Roofing - Austin, TX", url: "https://4-blue-sky-roofing.vercel.app", note: "'Not Secure' warning and failing server replaced outright", metric: "'Not Secure'", tone: "fail" },
-  { name: "Elite Roofing LLC", niche: "Roofing - Austin, TX", url: "https://2-elite-roofing.vercel.app", note: "46/100 mobile speed score rebuilt to load instantly", metric: "46/100 speed", tone: "pass" },
+  { name: "Reliance Roofing", niche: "Roofing - Austin, TX", url: "https://6-reliance-roofing.vercel.app", note: "Old site: 21.8 s mobile load, no HTTPS; rebuilt secure and mobile-first", metric: "21.8 s load", tone: "before", visualType: "performance" },
+  { name: "Porter & Sons Roofing", niche: "Roof repair - Austin, TX", url: "https://5-porter-sons-roofing.vercel.app", note: "Same-day bookings put front and center with click-to-call", metric: "No mobile setup", tone: "fail", visualType: "mobile" },
+  { name: "Texas Choice Roofing", niche: "Roofing & exteriors - Austin, TX", url: "https://1-texas-choice-roofing.vercel.app", note: "14.9 s mobile load replaced with an instant licensed-and-insured pitch", metric: "14.9 s load", tone: "before", visualType: "performance" },
+  { name: "Zilker Roofing", niche: "Res/com/industrial - Austin, TX", url: "https://3-zilker-roofing.vercel.app", note: "Desktop-only page rebuilt mobile-first for phone searches", metric: "Desktop-only", tone: "fail", visualType: "mobile" },
+  { name: "Blue Sky Roofing", niche: "Roofing - Austin, TX", url: "https://4-blue-sky-roofing.vercel.app", note: "'Not Secure' warning and failing server replaced outright", metric: "'Not Secure'", tone: "fail", visualType: "security" },
+  { name: "Elite Roofing LLC", niche: "Roofing - Austin, TX", url: "https://2-elite-roofing.vercel.app", note: "46/100 mobile speed score rebuilt to load instantly", metric: "46/100 speed", tone: "pass", visualType: "performance" },
 ] as const;
 
 const steps = [
@@ -44,6 +113,29 @@ const metricStyles: Record<string, string> = {
   fail: "bg-red-50 text-red-700 border-red-200",
   pass: "bg-green-50 text-green-700 border-green-200",
 };
+
+function CaseCardVisual({
+  visualType,
+  badge,
+}: {
+  visualType: CaseVisualType;
+  badge: ReactNode;
+}) {
+  return (
+    <div className="relative h-44 overflow-hidden bg-slate-100">
+      <Image
+        src={CASE_VISUALS[visualType]}
+        alt=""
+        aria-hidden="true"
+        fill
+        sizes="(max-width: 768px) 100vw, 33vw"
+        className="object-cover object-center scale-[1.12]"
+      />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/0 via-white/0 to-white/10" />
+      <div className="absolute right-4 top-4 z-10">{badge}</div>
+    </div>
+  );
+}
 
 function Wordmark({ dark = false }: { dark?: boolean }) {
   return (
@@ -220,21 +312,25 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHead eyebrow="Portfolio" title="Live rebuilds" sub="Every project is a real, live rebuild for a real local business. Open any on your phone." />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {portfolio.map((p, i) => (
-              <motion.a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-900/10 hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
-                <div className={`absolute top-4 right-4 z-10 rounded-full px-3 py-1 text-xs font-semibold font-mono border ${metricStyles[p.tone]}`}>{p.metric}</div>
-                <div className="h-40 flex items-center justify-center" style={{ background: "linear-gradient(135deg,#f1f5f9,#e2e8f0)" }}>
-                  <span className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-indigo-600"><HomeIcon className="w-7 h-7" /></span>
-                </div>
-                <div className="p-6">
-                  <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">{p.niche}</p>
-                  <h3 className="mt-2 text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{p.name}</h3>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{p.note}</p>
-                  <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600">View live <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /></div>
-                </div>
-              </motion.a>
-            ))}
+            {portfolio.map((p, i) => {
+              const visualType = p.visualType ?? resolveCaseVisualType(`${p.metric} ${p.note}`);
+
+              return (
+                <motion.a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                  className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-900/10 hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
+                  <CaseCardVisual
+                    visualType={visualType}
+                    badge={<div className={`rounded-full px-3 py-1 text-xs font-semibold font-mono border ${metricStyles[p.tone]}`}>{p.metric}</div>}
+                  />
+                  <div className="p-6">
+                    <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">{p.niche}</p>
+                    <h3 className="mt-2 text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{p.name}</h3>
+                    <p className="mt-2 text-sm text-slate-600 leading-relaxed">{p.note}</p>
+                    <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600">View live <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /></div>
+                  </div>
+                </motion.a>
+              );
+            })}
           </div>
         </div>
       </section>
