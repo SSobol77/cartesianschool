@@ -200,11 +200,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -right-6 top-20 bg-white rounded-2xl shadow-xl p-4 border border-slate-200 flex items-center gap-3">
+              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -right-6 top-20 bg-white rounded-2xl shadow-xl p-4 border border-slate-200 flex items-center gap-3 will-change-transform">
                 <span className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600"><Search className="w-5 h-5" /></span>
                 <div><p className="text-sm font-bold text-slate-900">Free audit</p><p className="text-xs text-slate-500">Google-measured</p></div>
               </motion.div>
-              <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute -left-10 bottom-28 bg-white rounded-2xl shadow-xl p-4 border border-slate-200 flex items-center gap-3">
+              <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute -left-10 bottom-28 bg-white rounded-2xl shadow-xl p-4 border border-slate-200 flex items-center gap-3 will-change-transform">
                 <span className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600"><Eye className="w-5 h-5" /></span>
                 <div><p className="text-sm font-bold text-slate-900">Live preview</p><p className="text-xs text-slate-500">Before you pay</p></div>
               </motion.div>
