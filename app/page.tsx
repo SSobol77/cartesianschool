@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import {
   Search, Eye, Tag, Rocket, Smartphone, Zap, Lock, PhoneCall, Target,
   KeyRound, ArrowRight, ArrowUpRight, Check, Calendar, Globe, Mail, Menu, X,
@@ -23,64 +23,6 @@ const CASE_VISUALS = {
 
 type CaseVisualType = keyof typeof CASE_VISUALS;
 
-function resolveCaseVisualType(problem: string): CaseVisualType {
-  const normalized = problem.toLowerCase();
-
-  if (
-    normalized.includes("not secure") ||
-    normalized.includes("no https") ||
-    normalized.includes("ssl") ||
-    normalized.includes("certificate")
-  ) {
-    return "security";
-  }
-
-  if (
-    normalized.includes("no mobile") ||
-    normalized.includes("desktop-only") ||
-    normalized.includes("not responsive") ||
-    normalized.includes("mobile setup") ||
-    normalized.includes("mobile layout")
-  ) {
-    return "mobile";
-  }
-
-  if (
-    normalized.includes("load") ||
-    normalized.includes("speed") ||
-    normalized.includes("lighthouse") ||
-    normalized.includes("pagespeed") ||
-    normalized.includes("/100")
-  ) {
-    return "performance";
-  }
-
-  if (
-    normalized.includes("call") ||
-    normalized.includes("booking") ||
-    normalized.includes("calendar") ||
-    normalized.includes("appointment") ||
-    normalized.includes("cta") ||
-    normalized.includes("lead")
-  ) {
-    return "conversion";
-  }
-
-  if (
-    normalized.includes("seo") ||
-    normalized.includes("local") ||
-    normalized.includes("ranking") ||
-    normalized.includes("map") ||
-    normalized.includes("google") ||
-    normalized.includes("reviews") ||
-    normalized.includes("visibility")
-  ) {
-    return "seo";
-  }
-
-  return "performance";
-}
-
 // metric = the MEASURED problem on the original site (Google PageSpeed),
 // shown as the "before". We never invent "after" numbers or client results.
 const portfolio = [
@@ -89,7 +31,7 @@ const portfolio = [
   { name: "Texas Choice Roofing", niche: "Roofing & exteriors - Austin, TX", url: "https://1-texas-choice-roofing.vercel.app", note: "14.9 s mobile load replaced with an instant licensed-and-insured pitch", metric: "14.9 s load", tone: "before", visualType: "performance" },
   { name: "Zilker Roofing", niche: "Res/com/industrial - Austin, TX", url: "https://3-zilker-roofing.vercel.app", note: "Desktop-only page rebuilt mobile-first for phone searches", metric: "Desktop-only", tone: "fail", visualType: "mobile" },
   { name: "Blue Sky Roofing", niche: "Roofing - Austin, TX", url: "https://4-blue-sky-roofing.vercel.app", note: "'Not Secure' warning and failing server replaced outright", metric: "'Not Secure'", tone: "fail", visualType: "security" },
-  { name: "Elite Roofing LLC", niche: "Roofing - Austin, TX", url: "https://2-elite-roofing.vercel.app", note: "46/100 mobile speed score rebuilt to load instantly", metric: "46/100 speed", tone: "pass", visualType: "performance" },
+  { name: "Elite Roofing LLC", niche: "Roofing - Austin, TX", url: "https://2-elite-roofing.vercel.app", note: "46/100 mobile speed score rebuilt to load instantly", metric: "46/100 speed", tone: "before", visualType: "performance" },
 ] as const;
 
 const steps = [
@@ -108,10 +50,10 @@ const features = [
   { title: "You Own It", desc: "Domain, hosting, code: everything is yours. No lock-in.", Icon: KeyRound },
 ];
 
+// "before"-condition badges only: measured problems on the original site, never invented "after" wins.
 const metricStyles: Record<string, string> = {
   before: "bg-amber-50 text-amber-700 border-amber-200",
   fail: "bg-red-50 text-red-700 border-red-200",
-  pass: "bg-green-50 text-green-700 border-green-200",
 };
 
 function CaseCardVisual({
@@ -161,6 +103,7 @@ export default function Home() {
   const openAudit = () => { setAuditSent(false); setAuditOpen(true); };
 
   return (
+    <MotionConfig reducedMotion="user">
     <main className="min-h-screen bg-white text-slate-900 overflow-x-hidden">
       {/* ---------------- Nav ---------------- */}
       <motion.header
@@ -181,17 +124,17 @@ export default function Home() {
               ))}
             </nav>
             <div className="hidden md:flex items-center gap-4">
-              <a href={`mailto:${EMAIL}`} className="text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors">{EMAIL}</a>
+              <a href={`mailto:${EMAIL}`} className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">{EMAIL}</a>
               <a href={CALENDLY} className="rounded-full bg-indigo-600 hover:bg-indigo-700 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition-all">Book a call</a>
             </div>
-            <button className="md:hidden p-2 rounded-lg hover:bg-slate-100" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Menu">
-              <Menu className="w-6 h-6 text-slate-900" />
+            <button className="md:hidden p-2 rounded-lg hover:bg-slate-100" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} aria-expanded={mobileMenuOpen} aria-controls="mobile-menu">
+              {mobileMenuOpen ? <X className="w-6 h-6 text-slate-900" /> : <Menu className="w-6 h-6 text-slate-900" />}
             </button>
           </div>
         </div>
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden bg-white border-b border-slate-200 overflow-hidden">
+            <motion.div id="mobile-menu" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="md:hidden bg-white border-b border-slate-200 overflow-hidden">
               <div className="px-4 py-6 space-y-4">
                 {["How it works", "Portfolio", "What you get", "About"].map((item) => (
                   <a key={item} href={`#${item.toLowerCase().replace(/\s/g, "-")}`} className="block text-lg font-medium text-slate-700" onClick={() => setMobileMenuOpen(false)}>{item}</a>
@@ -294,7 +237,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((s, i) => (
               <motion.div key={s.n} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}
-                className="relative p-8 rounded-[1.75rem] bg-slate-50 border border-slate-200 hover:border-indigo-200 hover:-translate-y-1 hover:shadow-[0_24px_48px_rgba(49,46,129,0.12)] transition-all duration-300">
+                className="relative p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-indigo-200 hover:-translate-y-1 hover:shadow-[0_24px_48px_rgba(49,46,129,0.12)] transition-all duration-300">
                 <span className="absolute top-6 right-6 text-5xl font-extrabold text-slate-200 font-mono">{s.n}</span>
                 <span className="inline-flex w-14 h-14 rounded-2xl items-center justify-center text-white shadow-lg shadow-indigo-600/20 mb-6" style={{ background: "linear-gradient(135deg,#7c3aed,#5b3df5,#2563eb)" }}>
                   <s.Icon className="w-7 h-7" />
@@ -312,25 +255,21 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHead eyebrow="Portfolio" title="Live rebuilds" sub="Every project is a real, live rebuild for a real local business. Open any on your phone." />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {portfolio.map((p, i) => {
-              const visualType = p.visualType ?? resolveCaseVisualType(`${p.metric} ${p.note}`);
-
-              return (
-                <motion.a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                  className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-900/10 hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
-                  <CaseCardVisual
-                    visualType={visualType}
-                    badge={<div className={`rounded-full px-3 py-1 text-xs font-semibold font-mono border ${metricStyles[p.tone]}`}>{p.metric}</div>}
-                  />
-                  <div className="p-6">
-                    <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">{p.niche}</p>
-                    <h3 className="mt-2 text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{p.name}</h3>
-                    <p className="mt-2 text-sm text-slate-600 leading-relaxed">{p.note}</p>
-                    <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600">View live <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /></div>
-                  </div>
-                </motion.a>
-              );
-            })}
+            {portfolio.map((p, i) => (
+              <motion.a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-900/10 hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
+                <CaseCardVisual
+                  visualType={p.visualType}
+                  badge={<div className={`rounded-full px-3 py-1 text-xs font-semibold font-mono border ${metricStyles[p.tone]}`}>{p.metric}</div>}
+                />
+                <div className="p-6">
+                  <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">{p.niche}</p>
+                  <h3 className="mt-2 text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{p.name}</h3>
+                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{p.note}</p>
+                  <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600">View live <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" /></div>
+                </div>
+              </motion.a>
+            ))}
           </div>
         </div>
       </section>
@@ -353,7 +292,7 @@ export default function Home() {
           </div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mt-16 max-w-2xl mx-auto">
-            <div className="relative rounded-[2rem] p-8 sm:p-12 text-center overflow-hidden" style={{ background: "linear-gradient(160deg,#1b1442,#0a0820)" }}>
+            <div className="relative rounded-4xl p-8 sm:p-12 text-center overflow-hidden" style={{ background: "linear-gradient(160deg,#1b1442,#0a0820)" }}>
               <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" style={{ background: "rgba(124,58,237,0.25)" }} />
               <div className="relative">
                 <p className="text-violet-400 font-semibold text-sm uppercase tracking-wide">Fixed Price</p>
@@ -400,7 +339,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[32px] p-8 text-white shadow-2xl shadow-violet-600/20 sm:p-12 bg-[linear-gradient(135deg,#6733e8_0%,#6236ee_45%,#2563eb_100%)]"
+            className="relative overflow-hidden rounded-4xl p-8 text-white shadow-2xl shadow-violet-600/20 sm:p-12 bg-[linear-gradient(135deg,#6733e8_0%,#6236ee_45%,#2563eb_100%)]"
           >
             <div
               className="pointer-events-none absolute inset-0 z-0 bg-transparent"
@@ -440,7 +379,7 @@ export default function Home() {
               <p className="text-sm leading-relaxed">Website audits and rebuilds for local businesses. Based in Warsaw, serving the US and EU.</p>
             </div>
             <FooterCol title="Services" items={["Website Audit", "Mobile Rebuild", "Local SEO", "Speed Optimization"]} />
-            <FooterCol title="Company" items={["About", "Portfolio", "Process", "Contact"]} />
+            <FooterCol title="Company" items={["About", "Portfolio", "Process", "Contact"]} linked />
             <div>
               <h4 className="text-white font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-sm">
@@ -467,16 +406,25 @@ export default function Home() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setAuditOpen(false)}
             className="fixed inset-0 z-[100] grid place-items-center p-6" style={{ background: "rgba(10,8,32,0.55)", backdropFilter: "blur(6px)" }}>
             <motion.div initial={{ scale: 0.95, y: 10 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 10 }} onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md bg-white rounded-[1.75rem] p-8 shadow-2xl relative">
+              className="w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl relative">
               <button onClick={() => setAuditOpen(false)} aria-label="Close" className="absolute top-4 right-4 w-8 h-8 grid place-items-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200"><X className="w-4 h-4" /></button>
               {!auditSent ? (
                 <>
                   <span className="inline-flex w-12 h-12 rounded-xl items-center justify-center text-white shadow-lg shadow-indigo-600/20" style={{ background: "linear-gradient(135deg,#7c3aed,#5b3df5,#2563eb)" }}><Search className="w-6 h-6" /></span>
                   <h3 className="mt-5 text-2xl font-bold text-slate-900">Get your free audit</h3>
                   <p className="mt-2 text-slate-600">Send your site address and we&apos;ll reply with a plain-language report: what&apos;s costing you customers and why.</p>
-                  <form className="mt-6 space-y-4" onSubmit={(e) => { e.preventDefault(); setAuditSent(true); }}>
-                    <Field label="Your current website" icon={<Globe className="w-4 h-4" />} placeholder="yoursite.com" type="url" required />
-                    <Field label="Email for the report" icon={<Mail className="w-4 h-4" />} placeholder="you@business.com" type="email" required />
+                  <form className="mt-6 space-y-4" onSubmit={(e) => {
+                    e.preventDefault();
+                    const data = new FormData(e.currentTarget);
+                    const site = String(data.get("website") ?? "").trim();
+                    const from = String(data.get("email") ?? "").trim();
+                    const subject = encodeURIComponent(`Free audit request: ${site}`);
+                    const body = encodeURIComponent(`Website to audit: ${site}\nReply to: ${from}\n`);
+                    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+                    setAuditSent(true);
+                  }}>
+                    <Field label="Your current website" name="website" icon={<Globe className="w-4 h-4" />} placeholder="yoursite.com" type="url" required />
+                    <Field label="Email for the report" name="email" icon={<Mail className="w-4 h-4" />} placeholder="you@business.com" type="email" required />
                     <button type="submit" className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 hover:bg-indigo-700 px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 transition-all">Send me the audit <ArrowRight className="w-5 h-5" /></button>
                   </form>
                   <p className="mt-3.5 text-xs text-slate-400 text-center">No obligation. The audit is yours to keep.</p>
@@ -494,6 +442,7 @@ export default function Home() {
         )}
       </AnimatePresence>
     </main>
+    </MotionConfig>
   );
 }
 
@@ -507,12 +456,18 @@ function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: string; 
   );
 }
 
-function FooterCol({ title, items }: { title: string; items: string[] }) {
+function FooterCol({ title, items, linked = false }: { title: string; items: string[]; linked?: boolean }) {
   return (
     <div>
       <h4 className="text-white font-semibold mb-4">{title}</h4>
       <ul className="space-y-2 text-sm">
-        {items.map((item) => <li key={item}><a href={footerHref(item)} className="hover:text-white transition-colors">{item}</a></li>)}
+        {items.map((item) =>
+          linked ? (
+            <li key={item}><a href={footerHref(item)} className="hover:text-white transition-colors">{item}</a></li>
+          ) : (
+            <li key={item} className="text-slate-400">{item}</li>
+          )
+        )}
       </ul>
     </div>
   );

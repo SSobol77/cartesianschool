@@ -25,7 +25,11 @@
   --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Offset anchored sections so headings clear the fixed header (h-16 / sm:h-20). */
+  scroll-padding-top: 6rem;
+}
 
 body {
   background: var(--background);
@@ -46,6 +50,14 @@ body {
 /* Selection */
 ::selection { background-color: rgba(79, 70, 229, 0.2); color: inherit; }
 
+/* Visible keyboard focus for links and buttons; mouse focus stays clean.
+   The outline follows each element's border-radius (rounded pills/cards). */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--cs-action);
+  outline-offset: 2px;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -54,4 +66,10 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  /* Stop CSS keyframe loops (e.g. the pulsing status dot); Framer JS motion
+     is handled separately via <MotionConfig reducedMotion="user">. */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
