@@ -236,8 +236,8 @@ export default function Home() {
           <SectionHead eyebrow="Process" title="How it works" sub="No contracts, no deposits, no risk. See your new site before you commit." />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((s, i) => (
-              <motion.div key={s.n} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}
-                className="relative p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-indigo-200 hover:-translate-y-1 hover:shadow-[0_24px_48px_rgba(49,46,129,0.12)] transition-all duration-300">
+              <motion.div key={s.n} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12, duration: 0.5, ease: "easeOut" }} whileHover={{ y: -4 }}
+                className="relative p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-indigo-200 hover:shadow-[0_24px_48px_rgba(49,46,129,0.12)] transition-[box-shadow,border-color] duration-300">
                 <span className="absolute top-6 right-6 text-5xl font-extrabold text-slate-200 font-mono">{s.n}</span>
                 <span className="inline-flex w-14 h-14 rounded-2xl items-center justify-center text-white shadow-lg shadow-indigo-600/20 mb-6" style={{ background: "linear-gradient(135deg,#7c3aed,#5b3df5,#2563eb)" }}>
                   <s.Icon className="w-7 h-7" />
@@ -256,8 +256,8 @@ export default function Home() {
           <SectionHead eyebrow="Portfolio" title="Live rebuilds" sub="Every project is a real, live rebuild for a real local business. Open any on your phone." />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {portfolio.map((p, i) => (
-              <motion.a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-900/10 hover:-translate-y-1 hover:border-indigo-200 transition-all duration-300">
+              <motion.a key={p.url} href={p.url} target="_blank" rel="noopener noreferrer" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }} whileHover={{ y: -4 }}
+                className="group relative bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-900/10 hover:border-indigo-200 transition-[box-shadow,border-color] duration-300">
                 <CaseCardVisual
                   visualType={p.visualType}
                   badge={<div className={`rounded-full px-3 py-1 text-xs font-semibold font-mono border ${metricStyles[p.tone]}`}>{p.metric}</div>}
@@ -280,8 +280,8 @@ export default function Home() {
           <SectionHead eyebrow="What you get" title="Every rebuild includes" sub="No hidden fees. No monthly subscriptions. One fixed price, everything included." />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
             {features.map((f, i) => (
-              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="flex gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-200 transition-all">
+              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, ease: "easeOut" }}
+                className="flex gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-200 transition-colors">
                 <span className="flex-shrink-0 w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-indigo-600 shadow-sm"><f.Icon className="w-6 h-6" /></span>
                 <div>
                   <h3 className="font-bold text-slate-900">{f.title}</h3>
